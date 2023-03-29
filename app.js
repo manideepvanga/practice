@@ -107,3 +107,24 @@ app.get("/todos/", checkRequest, async (request, response) => {
   const todosArray = await db.all(getTodosQuery);
   response.send(todosArray);
 });
+
+//
+//
+app.get("/todos/:todoId/", checkRequest, async (request, response) => {
+  const { todoId } = request.params;
+  const getTodosQuery = `
+        SELECT 
+            id,
+            todo,
+            priority,
+            status,
+            category,
+            due_date AS dueDate 
+        FROM 
+            todo
+        WHERE 
+        id=${todoId};`;
+
+  const todosArray = await db.get(getTodosQuery);
+  response.send(todosArray);
+});
